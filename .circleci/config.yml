@@ -1,11 +1,14 @@
 version: 2.1
 machine: true
+orbs:
+  docker: circleci/docker@2.1.1
 jobs:
   build:
     working_directory: ~/lc-mate-backend
     docker:
       - image: cimg/go:1.18.3
     steps:
+      - docker/install-docker
       - checkout
       - restore_cache:
           keys:
