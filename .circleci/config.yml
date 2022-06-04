@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  docker: circleci/docker@2.1.1
 jobs:
   build:
     working_directory: ~/lc-mate-backend
@@ -6,6 +8,7 @@ jobs:
       - image: cimg/go:1.18.3
     steps:
       - checkout
+      - docker/install-docker
       - restore_cache:
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
