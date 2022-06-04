@@ -1,9 +1,20 @@
-## Endpoint
+# LC Mate (backend)
 
-`GET` https://lc-mate-backend.herokuapp.com/ping
-`GET` https://lc-mate-backend.herokuapp.com/user?username=cglotr
-`GET` https://lc-mate-backend.herokuapp.com/users
+[![CircleCI](https://circleci.com/gh/cglotr/lc-mate-backend/tree/master.svg?style=svg)](https://circleci.com/gh/cglotr/lc-mate-backend/tree/master)
+[![codecov](https://codecov.io/gh/cglotr/lc-mate-backend/branch/master/graph/badge.svg?token=dy918SiwVd)](https://codecov.io/gh/cglotr/lc-mate-backend)
 
-## MySQL database
+## Development
 
-`https://cloud.digitalocean.com/`
+```
+./gomod.sh
+```
+
+## Test
+
+```
+./gotest.sh
+```
+
+## Deployment
+
+- [MySQL database](https://cloud.digitalocean.com/)
