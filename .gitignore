@@ -1,3 +1,5 @@
 vendor
 .mysql.sh
 .env
+codecov
+cover.out
