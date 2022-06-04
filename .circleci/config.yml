@@ -19,4 +19,5 @@ jobs:
       - run:
           command: |
             ./gomod.sh
+            docker run hello-world
             ./gotest.sh
