@@ -5,12 +5,8 @@ jobs:
   build:
     machine: true
     working_directory: ~/lc-mate-backend
-    # docker:
-    #   - image: cimg/go:1.18.3
     steps:
       - docker/install-docker
-      # - setup_remote_docker:
-      #     version: 20.10.14
       - checkout
       - run: go version
       - restore_cache:
@@ -25,5 +21,4 @@ jobs:
       - run:
           command: |
             ./gomod.sh
-            docker run hello-world
             ./gotest.sh
