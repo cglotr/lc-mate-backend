@@ -9,7 +9,8 @@ jobs:
     steps:
       - checkout
       - docker/install-docker
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.14
       - restore_cache:
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
