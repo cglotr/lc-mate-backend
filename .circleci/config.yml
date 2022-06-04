@@ -1,17 +1,18 @@
 version: 2.1
-machine: true
 orbs:
   docker: circleci/docker@2.1.1
 jobs:
   build:
+    machine: true
     working_directory: ~/lc-mate-backend
-    docker:
-      - image: cimg/go:1.18.3
+    # docker:
+    #   - image: cimg/go:1.18.3
     steps:
       - docker/install-docker
-      - setup_remote_docker:
-          version: 20.10.14
+      # - setup_remote_docker:
+      #     version: 20.10.14
       - checkout
+      - run: go version
       - restore_cache:
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
