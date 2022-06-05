@@ -1,1 +1,1 @@
-go run main.go | grep "(INFO|WARN|ERRR)"
+go run main.go

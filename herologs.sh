@@ -1,1 +1,1 @@
-heroku logs --tail | grep "(INFO|WARN|ERRR)"
+heroku logs --tail
