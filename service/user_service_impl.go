@@ -71,7 +71,6 @@ func (u *UserServiceImpl) UpdateMostOutdatedUser() (*leetcode.UserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	kifu.Info("Updating user: %v", userModel)
 	userInfo, err := u.leetcodeApi.GetUserInfo(userModel.Username)
 	if err != nil {
 		return nil, err
