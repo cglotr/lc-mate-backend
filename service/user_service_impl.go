@@ -45,7 +45,20 @@ func (u *UserServiceImpl) GetUser(username string) (*leetcode.UserInfo, error) {
 }
 
 func (u *UserServiceImpl) GetUsers(usernames []string) ([]*leetcode.UserInfo, error) {
-	return []*leetcode.UserInfo{}, nil
+	userModels, err := u.userDao.QueryUsers(usernames)
+	if err != nil {
+		return nil, err
+	}
+	users := []*leetcode.UserInfo{}
+	for _, userModel := range userModels {
+		user := &leetcode.UserInfo{
+			Username: userModel.Username,
+			Rating:   userModel.Rating,
+			Rank:     userModel.Badge,
+		}
+		users = append(users, user)
+	}
+	return users, nil
 }
 
 func (u *UserServiceImpl) UpdateMostOutdatedUser() (*leetcode.UserInfo, error) {

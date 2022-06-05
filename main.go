@@ -38,7 +38,7 @@ func main() {
 	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(leetcode.BASE_URL)
 	userServiceImpl := service.NewUserServiceImpl(userDaoImpl, leetcodeApiImpl)
 
-	setupCron(userServiceImpl)
+	// setupCron(userServiceImpl)
 	setupWebServer(userServiceImpl).Run()
 }
 
