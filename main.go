@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/arikama/go-arctic-tern/arctictern"
+	"github.com/cglotr/lc-mate-backend/controller"
 	"github.com/cglotr/lc-mate-backend/dao"
 	"github.com/cglotr/lc-mate-backend/leetcode"
 	"github.com/cglotr/lc-mate-backend/service"
@@ -19,6 +20,11 @@ import (
 )
 
 const CRON_INTERVAL = 10
+
+func routes(r *gin.Engine, userService service.UserService) {
+	r.GET("/ping", controller.GetPingController())
+	r.POST("/users", controller.PostUsersController(userService))
+}
 
 func main() {
 	godotenv.Load()
