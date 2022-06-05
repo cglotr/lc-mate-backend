@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/cglotr/lc-mate-backend/dao"
 	"github.com/cglotr/lc-mate-backend/leetcode"
 	"github.com/cglotr/lc-mate-backend/model"
@@ -73,7 +75,13 @@ func (u *UserServiceImpl) UpdateMostOutdatedUser() (*leetcode.UserInfo, error) {
 	}
 	userInfo, err := u.leetcodeApi.GetUserInfo(userModel.Username)
 	if err != nil {
-		return nil, err
+		kifu.Error("Error from Leetcode: username=%v, error=%v", userModel.Username, err.Error())
+		err := u.userDao.DeleteUser(userModel.Username)
+		if err != nil {
+			return nil, err
+		}
+		kifu.Error("Deleted user: %v", userModel.Username)
+		return nil, errors.New(ErrorInvalidUser())
 	}
 	err = u.userDao.Upsert(&model.UserModel{
 		Username: userInfo.Username,

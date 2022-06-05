@@ -7,6 +7,7 @@ type UserDao interface {
 	QueryUsers(usernames []string) ([]*model.UserModel, error)
 	QueryMostOutdatedUser() (*model.UserModel, error)
 	MoveBackUpdatedAtOneDay(username string) error
+	DeleteUser(username string) error
 }
 
-func ErrUserNotFound() string { return "user not found" }
+func ErrorUserNotFound() string { return "error user not found" }

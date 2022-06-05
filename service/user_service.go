@@ -6,3 +6,5 @@ type UserService interface {
 	GetUsers(usernames []string) ([]*leetcode.UserInfo, error)
 	UpdateMostOutdatedUser() (*leetcode.UserInfo, error)
 }
+
+func ErrorInvalidUser() string { return "error invalid user" }

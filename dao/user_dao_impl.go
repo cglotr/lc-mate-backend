@@ -86,7 +86,7 @@ func (u *UserDaoImpl) QueryMostOutdatedUser() (*model.UserModel, error) {
 	}
 	defer rows.Close()
 	if !rows.Next() {
-		return nil, errors.New(ErrUserNotFound())
+		return nil, errors.New(ErrorUserNotFound())
 	}
 	user := model.UserModel{}
 	err = rows.Scan(&user.Username, &user.Rating, &user.Badge)
@@ -133,6 +133,17 @@ func (u *UserDaoImpl) MoveBackUpdatedAtOneDay(username string) error {
 		UPDATE user
 		SET updated_at = NOW() - INTERVAL 1 MONTH
 		WHERE username = ?
+		;
+		`,
+		username,
+	)
+	return err
+}
+
+func (u *UserDaoImpl) DeleteUser(username string) error {
+	_, err := u.db.Exec(
+		`
+		DELETE FROM user WHERE username = ?
 		;
 		`,
 		username,
