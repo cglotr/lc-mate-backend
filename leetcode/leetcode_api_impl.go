@@ -67,8 +67,12 @@ func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
 	}
 	userInfo := &UserInfo{
 		Username: username,
-		Rating:   int(jsonUnmarshal.Data.UserContestRanking.Rating),
-		Rank:     jsonUnmarshal.Data.UserContestRanking.Badge.Name,
+	}
+	if jsonUnmarshal.Data != nil && jsonUnmarshal.Data.UserContestRanking != nil {
+		userInfo.Rating = int(jsonUnmarshal.Data.UserContestRanking.Rating)
+		if jsonUnmarshal.Data.UserContestRanking.Badge != nil {
+			userInfo.Rank = jsonUnmarshal.Data.UserContestRanking.Badge.Name
+		}
 	}
 	return userInfo, nil
 }

@@ -42,6 +42,16 @@ func TestInvalidJson(t *testing.T) {
 	assert.Equal(t, "unexpected end of JSON input", err.Error())
 }
 
+func TestNullContestRanking(t *testing.T) {
+	ts := CreateTestServer()
+	defer ts.Close()
+	leetcodeApiImpl := NewLeetcodeApiImpl(ts.URL)
+	userInfo, _ := leetcodeApiImpl.GetUserInfo("fabrizio3")
+	assert.Equal(t, "fabrizio3", userInfo.Username)
+	assert.Equal(t, 0, userInfo.Rating)
+	assert.Equal(t, "", userInfo.Rank)
+}
+
 func CreateTestServer() *httptest.Server {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		bytes, _ := ioutil.ReadAll(r.Body)
@@ -71,6 +81,21 @@ func CreateTestServer() *httptest.Server {
 				w.WriteHeader(http.StatusOK)
 				w.Header().Add("Content-Type", "application/json")
 				io.WriteString(w, "")
+				break
+			}
+		case `{"query":"query userContestRankingInfo($username: String!) {userContestRanking(username: $username) {rating badge {name}}}","variables":{"username":"fabrizio3"}}`:
+			{
+				w.WriteHeader(http.StatusOK)
+				w.Header().Add("Content-Type", "application/json")
+				io.WriteString(w,
+					`
+					{
+						"data": {
+							"userContestRanking": null
+						}
+					}
+					`,
+				)
 				break
 			}
 		default:
