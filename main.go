@@ -19,7 +19,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const CRON_INTERVAL = 10
+const CRON_INTERVAL = 1
 
 func routes(r *gin.Engine, userService service.UserService) {
 	r.GET("/ping", controller.GetPingController())
