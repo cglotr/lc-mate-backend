@@ -2,6 +2,7 @@ package dao
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/cglotr/lc-mate-backend/model"
@@ -81,7 +82,7 @@ func (u *UserDaoImpl) QueryMostOutdatedUser() (*model.UserModel, error) {
 	}
 	defer rows.Close()
 	if !rows.Next() {
-		return nil, nil
+		return nil, errors.New(ErrUserNotFound())
 	}
 	user := model.UserModel{}
 	err = rows.Scan(&user.Username, &user.Rating, &user.Badge)

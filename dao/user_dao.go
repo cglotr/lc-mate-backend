@@ -8,3 +8,5 @@ type UserDao interface {
 	QueryMostOutdatedUser() (*model.UserModel, error)
 	MoveBackUpdatedAtOneDay(username string) error
 }
+
+func ErrUserNotFound() string { return "user not found" }

@@ -64,7 +64,9 @@ func setupCron(userService service.UserService) {
 		}()
 		user, err := userService.UpdateMostOutdatedUser()
 		if err != nil {
-			kifu.Error("Error updating user: %v", user.Username)
+			if err.Error() != dao.ErrUserNotFound() {
+				kifu.Error("Error updating user: %v", user)
+			}
 			return
 		}
 		kifu.Info("Updated user: %v", user)

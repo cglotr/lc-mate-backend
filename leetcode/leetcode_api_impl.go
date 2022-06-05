@@ -21,19 +21,25 @@ func NewLeetcodeApiImpl(baseUrl string) *LeetcodeApiImpl {
 }
 
 func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
-	body, _ := json.Marshal(map[string]interface{}{
+	body, err := json.Marshal(map[string]interface{}{
 		"query": "query userContestRankingInfo($username: String!) {userContestRanking(username: $username) {rating badge {name}}}",
 		"variables": map[string]interface{}{
 			"username": username,
 		},
 	})
+	if err != nil {
+		return nil, err
+	}
 	url := l.baseUrl + "/graphql/"
 	response, err := http.Post(url, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
-	bytes, _ := ioutil.ReadAll(response.Body)
+	bytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, err
+	}
 	type Badge struct {
 		Name string
 	}
