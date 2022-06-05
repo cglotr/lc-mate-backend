@@ -32,6 +32,9 @@ func (u *UserDaoImpl) Upsert(user *model.UserModel) error {
 		user.Badge,
 		user.Username,
 	)
+	if err != nil {
+		return err
+	}
 	if count, _ := result.RowsAffected(); count > 0 {
 		return nil
 	} else {
@@ -75,6 +78,7 @@ func (u *UserDaoImpl) Query(username string) (*model.UserModel, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	if !rows.Next() {
 		return nil, nil
 	}
@@ -101,6 +105,7 @@ func (u *UserDaoImpl) QueryMostOutdatedUser() (*model.UserModel, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	if !rows.Next() {
 		return nil, nil
 	}
