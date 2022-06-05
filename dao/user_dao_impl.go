@@ -127,11 +127,11 @@ func (u *UserDaoImpl) QueryUsers(usernames []string) ([]*model.UserModel, error)
 	return users, nil
 }
 
-func (u *UserDaoImpl) MoveBackUpdatedAtOneDay(username string) error {
+func (u *UserDaoImpl) OutdateUser(username string) error {
 	_, err := u.db.Exec(
 		`
 		UPDATE user
-		SET updated_at = NOW() - INTERVAL 1 MONTH
+		SET updated_at = FROM_UNIXTIME(1)
 		WHERE username = ?
 		;
 		`,

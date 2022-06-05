@@ -59,7 +59,7 @@ func (u *UserServiceImpl) GetUsers(usernames []string) ([]*leetcode.UserInfo, er
 			}
 
 			// this will prioritize user to be updated by the cron
-			err = u.userDao.MoveBackUpdatedAtOneDay(missingUsername)
+			err = u.userDao.OutdateUser(missingUsername)
 			if err != nil {
 				kifu.Error(err.Error())
 			}

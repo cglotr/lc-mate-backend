@@ -6,7 +6,7 @@ type UserDao interface {
 	Upsert(user *model.UserModel) error
 	QueryUsers(usernames []string) ([]*model.UserModel, error)
 	QueryMostOutdatedUser() (*model.UserModel, error)
-	MoveBackUpdatedAtOneDay(username string) error
+	OutdateUser(username string) error
 	DeleteUser(username string) error
 }
 
