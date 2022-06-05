@@ -62,34 +62,6 @@ func (u *UserDaoImpl) Upsert(user *model.UserModel) error {
 	}
 }
 
-func (u *UserDaoImpl) Query(username string) (*model.UserModel, error) {
-	rows, err := u.db.Query(
-		`
-		SELECT
-			username,
-			rating,
-			badge
-		FROM user
-		WHERE
-			username = ?
-		`,
-		username,
-	)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	if !rows.Next() {
-		return nil, nil
-	}
-	user := model.UserModel{}
-	err = rows.Scan(&user.Username, &user.Rating, &user.Badge)
-	if err != nil {
-		return nil, err
-	}
-	return &user, nil
-}
-
 func (u *UserDaoImpl) QueryMostOutdatedUser() (*model.UserModel, error) {
 	rows, err := u.db.Query(
 		`

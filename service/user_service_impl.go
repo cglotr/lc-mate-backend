@@ -3,7 +3,6 @@ package service
 import (
 	"github.com/cglotr/lc-mate-backend/dao"
 	"github.com/cglotr/lc-mate-backend/leetcode"
-	"github.com/cglotr/lc-mate-backend/model"
 )
 
 type UserServiceImpl struct {
@@ -15,32 +14,6 @@ func NewUserServiceImpl(userDao dao.UserDao, leetcodeApi leetcode.LeetcodeApi) *
 	return &UserServiceImpl{
 		userDao:     userDao,
 		leetcodeApi: leetcodeApi,
-	}
-}
-
-func (u *UserServiceImpl) GetUser(username string) (*leetcode.UserInfo, error) {
-	user, err := u.userDao.Query(username)
-	if err != nil {
-		return nil, err
-	}
-	if user != nil {
-		userInfo := leetcode.UserInfo{
-			Username: user.Username,
-			Rating:   user.Rating,
-			Rank:     user.Badge,
-		}
-		return &userInfo, nil
-	} else {
-		userInfo, err := u.leetcodeApi.GetUserInfo(username)
-		if err != nil {
-			return nil, err
-		}
-		u.userDao.Upsert(&model.UserModel{
-			Username: userInfo.Username,
-			Rating:   userInfo.Rating,
-			Badge:    userInfo.Rank,
-		})
-		return userInfo, nil
 	}
 }
 
