@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -15,22 +14,25 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-co-op/gocron"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/hooligram/kifu"
 	"github.com/joho/godotenv"
 )
+
+const CRON_INTERVAL = 10
 
 func main() {
 	godotenv.Load()
 
 	db, err := getDb()
 	if err != nil {
-		log.Fatalln(err.Error())
+		kifu.Fatal(err.Error())
 	}
 
 	userDaoImpl := dao.NewUserDaoImpl(db)
 	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(leetcode.BASE_URL)
 	userServiceImpl := service.NewUserServiceImpl(userDaoImpl, leetcodeApiImpl)
 
-	// setupCron(userServiceImpl)
+	setupCron(userServiceImpl)
 	setupWebServer(userServiceImpl).Run()
 }
 
@@ -48,10 +50,10 @@ func setupWebServer(userService service.UserService) *gin.Engine {
 
 func setupCron(userService service.UserService) {
 	s := gocron.NewScheduler(time.UTC)
-	s.Every(10).Second().Do(func() {
+	s.Every(CRON_INTERVAL).Second().Do(func() {
 		user, err := userService.UpdateMostOutdatedUser()
 		if err != nil {
-			log.Printf("error updating user: %v\n", user.Username)
+			kifu.Error("Error updating user: %v", user.Username)
 		}
 	})
 	s.StartAsync()
