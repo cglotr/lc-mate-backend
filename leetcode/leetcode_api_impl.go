@@ -3,6 +3,7 @@ package leetcode
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 )
@@ -20,15 +21,12 @@ func NewLeetcodeApiImpl(baseUrl string) *LeetcodeApiImpl {
 }
 
 func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
-	body, err := json.Marshal(map[string]interface{}{
+	body, _ := json.Marshal(map[string]interface{}{
 		"query": "query userContestRankingInfo($username: String!) {userContestRanking(username: $username) {rating badge {name}}}",
 		"variables": map[string]interface{}{
 			"username": username,
 		},
 	})
-	if err != nil {
-		return nil, err
-	}
 	url := l.baseUrl + "/graphql/"
 	response, err := http.Post(url, "application/json", bytes.NewBuffer(body))
 	if err != nil {
@@ -44,18 +42,25 @@ func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
 	}
 	type UserContestRanking struct {
 		Rating float64
-		Badge  Badge
+		Badge  *Badge
 	}
 	type Data struct {
-		UserContestRanking UserContestRanking
+		UserContestRanking *UserContestRanking
+	}
+	type Error struct {
+		Message string
 	}
 	type JsonUnmarshal struct {
-		Data Data
+		Data   *Data
+		Errors []*Error
 	}
 	var jsonUnmarshal JsonUnmarshal
 	err = json.Unmarshal(bytes, &jsonUnmarshal)
 	if err != nil {
 		return nil, err
+	}
+	if len(jsonUnmarshal.Errors) > 0 {
+		return nil, errors.New(jsonUnmarshal.Errors[len(jsonUnmarshal.Errors)-1].Message)
 	}
 	userInfo := &UserInfo{
 		Username: username,
