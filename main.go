@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/arikama/go-arctic-tern/arctictern"
-	"github.com/cglotr/lc-mate-backend/controller"
 	"github.com/cglotr/lc-mate-backend/dao"
 	"github.com/cglotr/lc-mate-backend/leetcode"
 	"github.com/cglotr/lc-mate-backend/service"
@@ -18,13 +17,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
-
-func setupRoutes(r *gin.Engine, userService service.UserService) {
-	r.GET("/ping", controller.GetPingController())
-	r.GET("/user", controller.GetUserController(userService))
-	r.GET("/users", controller.GetUsersController(userService))
-	r.POST("/users", controller.PostUsersController(userService))
-}
 
 func main() {
 	godotenv.Load()
@@ -49,7 +41,7 @@ func setupWebServer(userService service.UserService) *gin.Engine {
 	config.AllowOrigins = []string{"https://leetcode.com"}
 
 	r.Use(cors.New(config))
-	setupRoutes(r, userService)
+	routes(r, userService)
 
 	return r
 }
