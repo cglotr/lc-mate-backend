@@ -48,14 +48,19 @@ func (u *UserServiceImpl) GetUsers(usernames []string) ([]*leetcode.UserInfo, er
 	if len(missingUsernames) > 0 {
 		kifu.Info("Missing usernames: %v", missingUsernames)
 		for _, missingUsername := range missingUsernames {
-			err := u.userDao.Upsert(&model.UserModel{
+			err = u.userDao.Upsert(&model.UserModel{
 				Username: missingUsername,
 			})
-			kifu.Error(err.Error())
+			if err != nil {
+				kifu.Error(err.Error())
+				continue
+			}
 
 			// this will prioritize user to be updated by the cron
 			err = u.userDao.MoveBackUpdatedAtOneDay(missingUsername)
-			kifu.Error(err.Error())
+			if err != nil {
+				kifu.Error(err.Error())
+			}
 		}
 	}
 	return users, nil

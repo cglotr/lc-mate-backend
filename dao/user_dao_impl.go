@@ -37,7 +37,11 @@ func (u *UserDaoImpl) Upsert(user *model.UserModel) error {
 	if err != nil {
 		return err
 	}
-	if count, _ := result.RowsAffected(); count > 0 {
+	count, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if count > 0 {
 		return nil
 	} else {
 		_, err = u.db.Exec(
