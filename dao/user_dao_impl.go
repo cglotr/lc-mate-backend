@@ -27,6 +27,7 @@ func (u *UserDaoImpl) Upsert(user *model.UserModel) error {
 			updated_at = CURRENT_TIMESTAMP
 		WHERE
 			username = ?
+		;
 		`,
 		user.Rating,
 		user.Badge,
@@ -49,7 +50,7 @@ func (u *UserDaoImpl) Upsert(user *model.UserModel) error {
 				?,
 				?,
 				?
-			)
+			);
 			`,
 			user.Username,
 			user.Rating,
@@ -72,6 +73,7 @@ func (u *UserDaoImpl) QueryMostOutdatedUser() (*model.UserModel, error) {
 		FROM user
 		ORDER BY updated_at ASC
 		LIMIT 1
+		;
 		`,
 	)
 	if err != nil {
@@ -118,4 +120,17 @@ func (u *UserDaoImpl) QueryUsers(usernames []string) ([]*model.UserModel, error)
 		users = append(users, &user)
 	}
 	return users, nil
+}
+
+func (u *UserDaoImpl) MoveBackUpdatedAtOneDay(username string) error {
+	_, err := u.db.Exec(
+		`
+		UPDATE user
+		SET updated_at = NOW() - INTERVAL 1 MONTH
+		WHERE username = ?
+		;
+		`,
+		username,
+	)
+	return err
 }

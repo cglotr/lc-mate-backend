@@ -60,7 +60,9 @@ func setupCron(userService service.UserService) {
 		user, err := userService.UpdateMostOutdatedUser()
 		if err != nil {
 			kifu.Error("Error updating user: %v", user.Username)
+			return
 		}
+		kifu.Info("Updated user: %v", user)
 	})
 	s.StartAsync()
 }
