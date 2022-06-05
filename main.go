@@ -49,7 +49,7 @@ func main() {
 	}
 
 	userDaoImpl := dao.NewUserDaoImpl(db)
-	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl()
+	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(leetcode.BASE_URL)
 	userServiceImpl := service.NewUserServiceImpl(userDaoImpl, leetcodeApiImpl)
 
 	s := gocron.NewScheduler(time.UTC)

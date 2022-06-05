@@ -7,11 +7,16 @@ import (
 	"net/http"
 )
 
+const BASE_URL = "https://leetcode.com"
+
 type LeetcodeApiImpl struct {
+	baseUrl string
 }
 
-func NewLeetcodeApiImpl() *LeetcodeApiImpl {
-	return &LeetcodeApiImpl{}
+func NewLeetcodeApiImpl(baseUrl string) *LeetcodeApiImpl {
+	return &LeetcodeApiImpl{
+		baseUrl: baseUrl,
+	}
 }
 
 func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
@@ -24,7 +29,8 @@ func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	response, err := http.Post("https://leetcode.com/graphql/", "application/json", bytes.NewBuffer(body))
+	url := l.baseUrl + "/graphql/"
+	response, err := http.Post(url, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
