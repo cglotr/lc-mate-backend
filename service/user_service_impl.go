@@ -66,13 +66,17 @@ func (u *UserServiceImpl) UpdateMostOutdatedUser() (*leetcode.UserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = u.userDao.Upsert(userModel)
+	userInfo, err := u.leetcodeApi.GetUserInfo(userModel.Username)
 	if err != nil {
 		return nil, err
 	}
-	return &leetcode.UserInfo{
-		Username: userModel.Username,
-		Rating:   userModel.Rating,
-		Rank:     userModel.Badge,
-	}, nil
+	err = u.userDao.Upsert(&model.UserModel{
+		Username: userInfo.Username,
+		Rating:   userInfo.Rating,
+		Badge:    userInfo.Rank,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return userInfo, nil
 }
