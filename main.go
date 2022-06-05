@@ -23,6 +23,7 @@ func setupRoutes(r *gin.Engine, userService service.UserService) {
 	r.GET("/ping", controller.GetPingController())
 	r.GET("/user", controller.GetUserController(userService))
 	r.GET("/users", controller.GetUsersController(userService))
+	r.POST("/users", controller.PostUsersController(userService))
 }
 
 func main() {

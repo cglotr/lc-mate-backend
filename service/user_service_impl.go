@@ -44,6 +44,10 @@ func (u *UserServiceImpl) GetUser(username string) (*leetcode.UserInfo, error) {
 	}
 }
 
+func (u *UserServiceImpl) GetUsers(usernames []string) ([]*leetcode.UserInfo, error) {
+	return []*leetcode.UserInfo{}, nil
+}
+
 func (u *UserServiceImpl) UpdateMostOutdatedUser() (*leetcode.UserInfo, error) {
 	userModel, err := u.userDao.QueryMostOutdatedUser()
 	if err != nil {
