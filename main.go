@@ -57,6 +57,11 @@ func setupWebServer(userService service.UserService) *gin.Engine {
 func setupCron(userService service.UserService) {
 	s := gocron.NewScheduler(time.UTC)
 	s.Every(CRON_INTERVAL).Second().Do(func() {
+		defer func() {
+			if r := recover(); r != nil {
+				kifu.Warn("Recovered: %v", r)
+			}
+		}()
 		user, err := userService.UpdateMostOutdatedUser()
 		if err != nil {
 			kifu.Error("Error updating user: %v", user.Username)
