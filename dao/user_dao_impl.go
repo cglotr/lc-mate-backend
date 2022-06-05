@@ -57,33 +57,6 @@ func (u *UserDaoImpl) Upsert(user *model.UserModel) error {
 	}
 }
 
-func (u *UserDaoImpl) ReadAll() ([]*model.UserModel, error) {
-	rows, err := u.db.Query(
-		`
-		SELECT
-			username,
-			rating,
-			badge
-		FROM user
-		ORDER BY
-			username ASC
-		`,
-	)
-	if err != nil {
-		return nil, err
-	}
-	result := []*model.UserModel{}
-	for rows.Next() {
-		user := model.UserModel{}
-		err = rows.Scan(&user.Username, &user.Rating, &user.Badge)
-		if err != nil {
-			return nil, err
-		}
-		result = append(result, &user)
-	}
-	return result, nil
-}
-
 func (u *UserDaoImpl) Query(username string) (*model.UserModel, error) {
 	rows, err := u.db.Query(
 		`

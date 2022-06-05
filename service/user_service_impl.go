@@ -59,19 +59,3 @@ func (u *UserServiceImpl) UpdateMostOutdatedUser() (*leetcode.UserInfo, error) {
 		Rank:     userModel.Badge,
 	}, nil
 }
-
-func (u *UserServiceImpl) GetUsers() ([]*leetcode.UserInfo, error) {
-	userModels, err := u.userDao.ReadAll()
-	if err != nil {
-		return nil, err
-	}
-	users := []*leetcode.UserInfo{}
-	for _, userModel := range userModels {
-		users = append(users, &leetcode.UserInfo{
-			Username: userModel.Username,
-			Rating:   userModel.Rating,
-			Rank:     userModel.Badge,
-		})
-	}
-	return users, nil
-}
