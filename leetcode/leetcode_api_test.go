@@ -34,6 +34,14 @@ func TestUserNotFound(t *testing.T) {
 	assert.Equal(t, "User matching query does not exist.", err.Error())
 }
 
+func TestInvalidJson(t *testing.T) {
+	ts := CreateTestServer()
+	defer ts.Close()
+	leetcodeApiImpl := NewLeetcodeApiImpl(ts.URL)
+	_, err := leetcodeApiImpl.GetUserInfo("!")
+	assert.Equal(t, "unexpected end of JSON input", err.Error())
+}
+
 func CreateTestServer() *httptest.Server {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		bytes, _ := ioutil.ReadAll(r.Body)
@@ -56,6 +64,13 @@ func CreateTestServer() *httptest.Server {
 					}
 					`,
 				)
+				break
+			}
+		case `{"query":"query userContestRankingInfo($username: String!) {userContestRanking(username: $username) {rating badge {name}}}","variables":{"username":"!"}}`:
+			{
+				w.WriteHeader(http.StatusOK)
+				w.Header().Add("Content-Type", "application/json")
+				io.WriteString(w, "")
 				break
 			}
 		default:

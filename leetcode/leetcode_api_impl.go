@@ -33,10 +33,7 @@ func (l *LeetcodeApiImpl) GetUserInfo(username string) (*UserInfo, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
-	bytes, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return nil, err
-	}
+	bytes, _ := ioutil.ReadAll(response.Body)
 	type Badge struct {
 		Name string
 	}
