@@ -10,6 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.8.0
 	github.com/go-co-op/gocron v1.13.0
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/golang/mock v1.4.1
 	github.com/hooligram/kifu v1.2.0
 	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.7.1
