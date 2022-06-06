@@ -1,4 +1,4 @@
-package leetcode
+package leetcode_test
 
 import (
 	"io"
@@ -7,13 +7,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/cglotr/lc-mate-backend/leetcode"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHappyPath(t *testing.T) {
 	ts := CreateTestServer()
 	defer ts.Close()
-	leetcodeApiImpl := NewLeetcodeApiImpl(ts.URL)
+	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(ts.URL)
 	userInfo, _ := leetcodeApiImpl.GetUserInfo("awice")
 	assert.Equal(t, "awice", userInfo.Username)
 	assert.Equal(t, 2944, userInfo.Rating)
@@ -21,7 +22,7 @@ func TestHappyPath(t *testing.T) {
 }
 
 func TestServerError(t *testing.T) {
-	leetcodeApiImpl := NewLeetcodeApiImpl("")
+	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl("")
 	_, err := leetcodeApiImpl.GetUserInfo("awice")
 	assert.NotNil(t, err)
 }
@@ -29,7 +30,7 @@ func TestServerError(t *testing.T) {
 func TestUserNotFound(t *testing.T) {
 	ts := CreateTestServer()
 	defer ts.Close()
-	leetcodeApiImpl := NewLeetcodeApiImpl(ts.URL)
+	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(ts.URL)
 	_, err := leetcodeApiImpl.GetUserInfo("")
 	assert.Equal(t, "User matching query does not exist.", err.Error())
 }
@@ -37,7 +38,7 @@ func TestUserNotFound(t *testing.T) {
 func TestInvalidJson(t *testing.T) {
 	ts := CreateTestServer()
 	defer ts.Close()
-	leetcodeApiImpl := NewLeetcodeApiImpl(ts.URL)
+	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(ts.URL)
 	_, err := leetcodeApiImpl.GetUserInfo("!")
 	assert.Equal(t, "unexpected end of JSON input", err.Error())
 }
@@ -45,7 +46,7 @@ func TestInvalidJson(t *testing.T) {
 func TestNullContestRanking(t *testing.T) {
 	ts := CreateTestServer()
 	defer ts.Close()
-	leetcodeApiImpl := NewLeetcodeApiImpl(ts.URL)
+	leetcodeApiImpl := leetcode.NewLeetcodeApiImpl(ts.URL)
 	userInfo, _ := leetcodeApiImpl.GetUserInfo("fabrizio3")
 	assert.Equal(t, "fabrizio3", userInfo.Username)
 	assert.Equal(t, 0, userInfo.Rating)

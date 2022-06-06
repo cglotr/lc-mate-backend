@@ -1,8 +1,9 @@
-package util
+package util_test
 
 import (
 	"testing"
 
+	"github.com/cglotr/lc-mate-backend/util"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,9 +24,9 @@ func TestInvalidUsernames(t *testing.T) {
 		"profile",
 	}
 	for _, username := range invalids {
-		assert.True(t, IsInvalidUsername(username))
+		assert.True(t, util.IsInvalidUsername(username))
 	}
 
 	// making sure there are no duplicates
-	assert.Equal(t, len(invalidUsernames), len(invalids))
+	assert.Equal(t, len(util.InvalidUsernames), len(invalids))
 }

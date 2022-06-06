@@ -1,8 +1,9 @@
-package dao
+package dao_test
 
 import (
 	"testing"
 
+	"github.com/cglotr/lc-mate-backend/dao"
 	"github.com/cglotr/lc-mate-backend/model"
 	"github.com/cglotr/lc-mate-backend/util"
 	"github.com/stretchr/testify/assert"
@@ -10,7 +11,7 @@ import (
 
 func TestQueryMostOutdatedUser(t *testing.T) {
 	db := util.SpinUpTestDb()
-	userDaoImpl := NewUserDaoImpl(db)
+	userDaoImpl := dao.NewUserDaoImpl(db)
 	userDaoImpl.Upsert(&model.UserModel{
 		Username: "numb3r5",
 		Rating:   0,
@@ -52,7 +53,7 @@ func TestQueryMostOutdatedUser(t *testing.T) {
 
 func TestUpsert(t *testing.T) {
 	db := util.SpinUpTestDb()
-	userDaoImpl := NewUserDaoImpl(db)
+	userDaoImpl := dao.NewUserDaoImpl(db)
 	userDaoImpl.Upsert(&model.UserModel{
 		Username: "awice",
 		Rating:   4000,

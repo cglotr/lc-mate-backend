@@ -1,6 +1,6 @@
 package util
 
-var invalidUsernames = map[string]bool{
+var InvalidUsernames = map[string]bool{
 	"support":   true,
 	"jobs":      true,
 	"bugbounty": true,
@@ -17,6 +17,6 @@ var invalidUsernames = map[string]bool{
 }
 
 func IsInvalidUsername(username string) bool {
-	_, in := invalidUsernames[username]
+	_, in := InvalidUsernames[username]
 	return in
 }
