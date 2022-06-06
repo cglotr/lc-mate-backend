@@ -11,6 +11,13 @@ Chrome extension [repo](https://github.com/cglotr/lc-mate)
 
 ```
 ./gomod.sh
+./gorun.sh
+```
+
+### Generate mocks
+
+```
+./gogen.sh
 ```
 
 ## Test
