@@ -18,11 +18,11 @@ require (
 
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
-	github.com/Microsoft/go-winio v0.4.17-0.20210211115548-6eac466e5fa3 // indirect
-	github.com/Microsoft/hcsshim v0.8.16 // indirect
+	github.com/Microsoft/go-winio v0.4.17 // indirect
+	github.com/Microsoft/hcsshim v0.8.24 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
-	github.com/containerd/cgroups v0.0.0-20210114181951-8a68de567b68 // indirect
-	github.com/containerd/containerd v1.5.0-beta.4 // indirect
+	github.com/containerd/cgroups v1.0.3 // indirect
+	github.com/containerd/containerd v1.5.13 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/distribution v2.8.0+incompatible // indirect
 	github.com/docker/docker v20.10.7+incompatible // indirect
