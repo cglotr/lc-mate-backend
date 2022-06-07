@@ -74,14 +74,20 @@ func setupCron(userService service.UserService) {
 }
 
 func getDb() (*sql.DB, error) {
-	if isTestEnv() {
-		return mysqltestcontainer.Start("test", "./migration")
-	}
 	mysqlUsername := os.Getenv("MYSQL_USERNAME")
 	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
 	mysqlIp := os.Getenv("MYSQL_IP")
 	mysqlPort := os.Getenv("MYSQL_PORT")
 	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
+
+	if isTestEnv() {
+		result, _ := mysqltestcontainer.Start("test")
+		mysqlUsername = result.Username
+		mysqlPassword = result.Password
+		mysqlIp = result.Ip
+		mysqlPort = result.Port
+		mysqlDatabase = result.Database
+	}
 
 	dataSourceName := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", mysqlUsername, mysqlPassword, mysqlIp, mysqlPort, mysqlDatabase)
 	dataSourceName += "?charset=utf8mb4"

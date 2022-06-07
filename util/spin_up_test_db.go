@@ -3,14 +3,16 @@ package util
 import (
 	"database/sql"
 
+	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
 	"github.com/hooligram/kifu"
 )
 
 func SpinUpTestDb(migrationDir string) *sql.DB {
-	db, err := mysqltestcontainer.Start("test", migrationDir)
+	result, err := mysqltestcontainer.Start("test")
 	if err != nil {
 		kifu.Fatal(err.Error())
 	}
-	return db
+	arctictern.Migrate(result.Db, migrationDir)
+	return result.Db
 }

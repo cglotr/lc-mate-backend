@@ -4,8 +4,8 @@ module github.com/cglotr/lc-mate-backend
 go 1.18
 
 require (
-	github.com/arikama/go-arctic-tern v1.1.1
-	github.com/arikama/go-mysql-test-container v1.2.2
+	github.com/arikama/go-arctic-tern v1.1.2
+	github.com/arikama/go-mysql-test-container v1.2.4
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.8.0
 	github.com/go-co-op/gocron v1.13.0
