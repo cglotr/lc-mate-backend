@@ -7,11 +7,10 @@ import (
 	"github.com/hooligram/kifu"
 )
 
-func SpinUpTestDb() *sql.DB {
-	db, err := mysqltestcontainer.Start("test", "./../migration")
+func SpinUpTestDb(migrationDir string) *sql.DB {
+	db, err := mysqltestcontainer.Start("test", migrationDir)
 	if err != nil {
 		kifu.Fatal(err.Error())
-		panic(err.Error())
 	}
 	return db
 }

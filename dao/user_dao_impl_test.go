@@ -10,7 +10,7 @@ import (
 )
 
 func TestQueryMostOutdatedUser(t *testing.T) {
-	db := util.SpinUpTestDb()
+	db := util.SpinUpTestDb("./../migration")
 	userDaoImpl := dao.NewUserDaoImpl(db)
 	userDaoImpl.Upsert(&model.UserModel{
 		Username: "numb3r5",
@@ -52,7 +52,7 @@ func TestQueryMostOutdatedUser(t *testing.T) {
 }
 
 func TestUpsert(t *testing.T) {
-	db := util.SpinUpTestDb()
+	db := util.SpinUpTestDb("./../migration")
 	userDaoImpl := dao.NewUserDaoImpl(db)
 	userDaoImpl.Upsert(&model.UserModel{
 		Username: "awice",

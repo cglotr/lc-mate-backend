@@ -4,10 +4,14 @@ import (
 	"testing"
 
 	"github.com/cglotr/lc-mate-backend/util"
-	"github.com/stretchr/testify/assert"
+	"github.com/hooligram/kifu"
 )
 
-func TestSpinUpTestDb(t *testing.T) {
-	db := util.SpinUpTestDb()
-	assert.NotNil(t, db)
+func TestSpinUpTestDbError(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			kifu.Info("Recovered")
+		}
+	}()
+	util.SpinUpTestDb(".")
 }
