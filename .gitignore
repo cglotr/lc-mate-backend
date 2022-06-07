@@ -3,3 +3,4 @@ vendor
 .env
 codecov
 cover.out
+*_mock.go
