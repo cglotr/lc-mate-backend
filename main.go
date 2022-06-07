@@ -2,11 +2,13 @@ package main
 
 import (
 	"database/sql"
+	"flag"
 	"fmt"
 	"os"
 	"time"
 
 	"github.com/arikama/go-arctic-tern/arctictern"
+	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
 	"github.com/cglotr/lc-mate-backend/controller"
 	"github.com/cglotr/lc-mate-backend/dao"
 	"github.com/cglotr/lc-mate-backend/leetcode"
@@ -39,7 +41,11 @@ func main() {
 	userServiceImpl := service.NewUserServiceImpl(userDaoImpl, leetcodeApiImpl)
 
 	setupCron(userServiceImpl)
-	setupWebServer(userServiceImpl).Run()
+	s := setupWebServer(userServiceImpl)
+	if isTestEnv() {
+		return
+	}
+	s.Run()
 }
 
 func setupWebServer(userService service.UserService) *gin.Engine {
@@ -68,6 +74,9 @@ func setupCron(userService service.UserService) {
 }
 
 func getDb() (*sql.DB, error) {
+	if isTestEnv() {
+		return mysqltestcontainer.Start("test", "./migration")
+	}
 	mysqlUsername := os.Getenv("MYSQL_USERNAME")
 	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
 	mysqlIp := os.Getenv("MYSQL_IP")
@@ -95,4 +104,8 @@ func getDb() (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func isTestEnv() bool {
+	return flag.Lookup("test.v") != nil
 }
