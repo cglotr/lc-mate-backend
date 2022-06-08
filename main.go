@@ -43,9 +43,10 @@ func main() {
 	setupCron(userServiceImpl)
 	s := setupWebServer(userServiceImpl)
 	if isTestEnv() {
-		return
+		go s.Run()
+	} else {
+		s.Run()
 	}
-	s.Run()
 }
 
 func setupWebServer(userService service.UserService) *gin.Engine {
