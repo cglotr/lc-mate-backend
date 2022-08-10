@@ -28,4 +28,5 @@ Chrome extension [repo](https://github.com/cglotr/lc-mate)
 
 ## Deployment
 
+- [Railway](https://railway.app/)
 - [MySQL database](https://cloud.digitalocean.com/)
